@@ -16,12 +16,14 @@ def get_random_datetime(start: datetime, end: datetime) -> datetime:
     # Return the new timestamp
     return start + timedelta(seconds=random_seconds)
 
+merchant_categories = ["electronics", "clothing", "groceries", "entertainment", "travel"]
+cities = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"]
 
 data = {
   "transaction_id": str(uuid.uuid4()),
   "user_id": "user_042",
   "amount": 847.32,
   "timestamp": get_random_datetime(start_date, end_date).isoformat(),
-  "merchant_category": "electronics",
-  "city": "Austin",
+  "merchant_category": random.choice(merchant_categories),
+  "city": random.choice(cities),
 }
