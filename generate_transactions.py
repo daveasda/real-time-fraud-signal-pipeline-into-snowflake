@@ -19,10 +19,11 @@ def get_random_datetime(start: datetime, end: datetime) -> datetime:
 merchant_categories = ["electronics", "clothing", "groceries", "entertainment", "travel"]
 cities = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"]
 
+u_num =  random.randint(1, 50)
 data = {
   "transaction_id": str(uuid.uuid4()),
-  "user_id": "user_042",
-  "amount": 847.32,
+  "user_id": f"user_{u_num:02d}",
+  "amount": round(random.uniform(5, 500), 2),
   "timestamp": get_random_datetime(start_date, end_date).isoformat(),
   "merchant_category": random.choice(merchant_categories),
   "city": random.choice(cities),
