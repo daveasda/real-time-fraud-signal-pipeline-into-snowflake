@@ -1,6 +1,7 @@
 import snowflake.connector
 import os
 from dotenv import load_dotenv
+import jsonlines
 
 load_dotenv()
 
@@ -21,6 +22,28 @@ try:
     cursor.execute("SELECT current_version()")
     one_row = cursor.fetchone()
     print(f"Connected to Snowflake version: {one_row[0]}")
+
+
+    with jsonlines.open("transactions.jsonl") as reader:
+        for record in reader:
+            cursor.execute(
+                """
+                INSERT INTO RAW_TRANSACTIONS 
+                (transaction_id, user_id, amount, timestamp, merchant_category, city)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                """,
+                (
+                    record["transaction_id"],
+                    record["user_id"],
+                    record["amount"],
+                    record["timestamp"],
+                    record["merchant_category"],
+                    record["city"],
+                )
+            )
+
+    print("Done loading transactions.")
+
 finally:
     cursor.close()
     conn.close()
